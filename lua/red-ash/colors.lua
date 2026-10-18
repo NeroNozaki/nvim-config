@@ -32,6 +32,7 @@ function M.setup(opts)
     cyan = "#36C9B0",
     cyan_bright = "#4DD9E8",
     orange = "#E87545",
+    pink = "#f973f0",
   }
 
   Util.bg = colors.bg

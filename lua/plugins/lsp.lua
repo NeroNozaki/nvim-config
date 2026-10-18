@@ -136,6 +136,7 @@ local servers = {
     ---@type lspconfig.settings.lua_ls
     settings = {
       Lua = {
+        highlight = { enable = false },
         format = { enable = false }, -- Disable formatting (formatting is done by stylua)
       },
     },
@@ -205,6 +206,19 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = function()
     vim.lsp.enable("zls")
   end,
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+        if client and client.name == "lua_ls" then
+            vim.lsp.semantic_tokens.enable(false, {
+                bufnr = args.buf,
+                client_id = client.id,
+            })
+        end
+    end,
 })
 
 -- vim: ts=2 sts=2 sw=2 et

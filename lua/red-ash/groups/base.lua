@@ -71,7 +71,7 @@ function M.get(c, opts)
     Constant = { fg = c.purple },
     String = { fg = c.green_bright },
     Character = { fg = c.green_bright },
-    Number = { fg = c.orange },
+    Number = { fg = c.pink },
     Boolean = { fg = c.orange },
     Float = { fg = c.orange },
     Identifier = { fg = c.fg, style = opts.styles.variables },

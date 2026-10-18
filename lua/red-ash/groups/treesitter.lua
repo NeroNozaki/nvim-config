@@ -85,6 +85,9 @@ function M.get(c, opts)
     ["@variable.builtin"] = { fg = c.red },
     ["@variable.member"] = { fg = c.blue_bright },
     ["@variable.parameter"] = { fg = c.yellow },
+
+    -- Zig
+    ["@keyword.operator.zig"] = {link = "@keyword" },
   }
 end
 
