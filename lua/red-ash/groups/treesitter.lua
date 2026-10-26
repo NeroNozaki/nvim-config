@@ -38,7 +38,7 @@ function M.get(c, opts)
     ["@keyword.exception"] = "Exception",
     ["@keyword.function"] = { fg = c.purple },
     ["@keyword.import"] = "Include",
-    ["@keyword.operator"] = "@operator",
+    ["@keyword.operator"] = "@keyword",
     ["@keyword.repeat"] = "Repeat",
     ["@keyword.return"] = "@keyword",
     ["@keyword.storage"] = "StorageClass",
