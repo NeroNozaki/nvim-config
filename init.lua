@@ -28,4 +28,7 @@ require 'plugins'
 -- Your custom plugin modules (auto-loads lua/custom-plugins/*.lua)
 require 'custom-plugins'
 
+-- [[ Custom commands for command mode ]]
+require 'custom-commands'
+
 -- vim: ts=2 sts=2 sw=2 et
