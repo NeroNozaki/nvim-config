@@ -6,6 +6,7 @@ local telescope_plugins = {
   gh 'nvim-telescope/telescope.nvim',
   gh 'nvim-telescope/telescope-ui-select.nvim',
   gh 'jonarrien/telescope-cmdline.nvim',
+  gh 'nvim-telescope/telescope-file-browser.nvim'
 }
 if vim.fn.executable 'make' == 1 then table.insert(telescope_plugins, gh 'nvim-telescope/telescope-fzf-native.nvim') end
 
@@ -18,6 +19,7 @@ require('telescope').setup {
   --  All the info you're looking for is in `:help telescope.setup()`
   --
   defaults = {
+  path_display = { "truncate" },
   --
   --   mappings = {
   --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
@@ -30,8 +32,8 @@ require('telescope').setup {
       ignore_current_buffer = true,
       sorting_strategy = "descending",
     },
-    path_display = { "truncate" },
   },
+
   extensions = {
     ['ui-select'] = { require('telescope.themes').get_dropdown() },
     cmdline = {
@@ -53,6 +55,17 @@ require('telescope').setup {
         enabled = true,
       },
     },
+
+    file_browser = {
+      prompt_path = true,
+
+      hidden = {
+        file_browser = true,
+        folder_browser = true,
+      },
+
+      git_status = true,
+    },
   },
 }
 
@@ -60,23 +73,29 @@ require('telescope').setup {
 pcall(require('telescope').load_extension, 'fzf')
 pcall(require('telescope').load_extension, 'ui-select')
 pcall(require('telescope').load_extension, 'cmdline')
+pcall(require('telescope').load_extension, 'file_browser')
 
 -- See `:help telescope.builtin`
 local builtin = require 'telescope.builtin'
 vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+-- vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sf', function()
+  require("telescope").extensions.file_browser.file_browser({
+    path = vim.fn.expand("%:p:h"),
+  })
+end , { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
 vim.keymap.set({ 'n', 'v' }, '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
 vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
-vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+-- vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
+vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = 'Find existing [B]uffers' })
 
 -- Telescope cmdline
--- vim.api.nvim_set_keymap('n', '<leader>sc', ':Telescope cmdline<CR>', { noremap = true, desc = 'Cmdline' })
+vim.api.nvim_set_keymap('n', '<leader>sc', ':Telescope cmdline<CR>', { noremap = true, desc = 'Cmdline' })
 
 -- Add Telescope-based LSP pickers when an LSP attaches to a buffer.
 -- If you later switch picker plugins, this is where to update these mappings.
